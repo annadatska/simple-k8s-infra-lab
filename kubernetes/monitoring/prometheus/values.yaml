@@ -1,0 +1,42 @@
+# Disable Alertmanager if not needed
+alertmanager:
+  enabled: false
+
+# Disable the default Prometheus node exporter
+nodeExporter:
+  enabled: true
+
+# Prometheus server settings
+server:
+  global:
+    scrape_interval: 15s
+  service:
+    port: 9090
+
+  # Enable Prometheus's default scrape configurations
+  prometheusSpec:
+    scrapeInterval: 15s
+    evaluationInterval: 15s
+    externalLabels:
+      monitor: "kubernetes-monitor"
+    resources:
+      requests:
+        memory: "400Mi"
+        cpu: "200m"
+      limits:
+        memory: "1Gi"
+        cpu: "1"
+
+# Set up scrape configurations for other Kubernetes components
+kubelet:
+  enabled: true
+
+# Optional: Configure Persistent Storage (for Prometheus data)
+persistentVolume:
+  enabled: true
+  size: 8Gi
+  storageClass: "standard"
+
+# Disable Loki integration (since you don't need it)
+loki:
+  enabled: false

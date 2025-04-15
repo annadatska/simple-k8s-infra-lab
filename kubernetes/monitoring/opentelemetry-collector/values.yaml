@@ -1,0 +1,39 @@
+# Deployment mode: can be 'deployment' or 'daemonset'
+mode: deployment  # Or you can choose 'daemonset' based on your use case
+
+# Enable the OpenTelemetry Collector service
+service:
+  enabled: true
+  type: ClusterIP
+
+# Configure the OpenTelemetry Collector image
+image:
+  repository: "otel/opentelemetry-collector"  # Replace with the appropriate image repository
+  tag: "latest"  # Specify a tag, e.g., "latest"
+  pullPolicy: IfNotPresent
+
+# Resources allocation for OpenTelemetry Collector
+resources:
+  requests:
+    memory: "500Mi"
+    cpu: "200m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+# OpenTelemetry Collector config (basic configuration without otelcol)
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+        http:
+  exporters:
+    logging:
+      loglevel: debug
+    stdout:
+  service:
+    pipelines:
+      logs:
+        receivers: [otlp]
+        exporters: [logging]

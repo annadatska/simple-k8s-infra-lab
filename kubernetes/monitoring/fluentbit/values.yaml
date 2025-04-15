@@ -1,0 +1,4 @@
+backend:
+  type: loki
+  loki:
+    host: http://loki.monitoring.svc.cluster.local

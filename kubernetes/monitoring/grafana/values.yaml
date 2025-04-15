@@ -1,0 +1,44 @@
+# Configure the Prometheus data source
+datasources:
+  default:
+    type: prometheus
+    url: "http://prometheus-server.monitoring.svc.cluster.local:9090"
+
+# Enable Grafana dashboards (optional)
+dashboards:
+  default:
+    kubernetes-cluster:
+      gnetId: 315
+      datasource: Prometheus
+
+# Grafana settings
+grafana:
+  adminPassword: "admin"  # Change this password
+  persistence:
+    enabled: true
+    storageClassName: "standard"
+    size: 8Gi
+
+  # Config for Grafana UI
+  auth:
+    disable_login_form: false
+    disable_signout_menu: false
+
+# Enable Grafana ingress if needed
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - grafana.local
+  paths:
+    - /
+
+# Resources for Grafana (adjust as needed)
+resources:
+  requests:
+    memory: "200Mi"
+    cpu: "100m"
+  limits:
+    memory: "500Mi"
+    cpu: "500m"
