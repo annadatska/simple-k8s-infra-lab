@@ -6,6 +6,8 @@ from opentelemetry import trace
 app = FastAPI()
 REQUESTS = Counter('http_requests_total', 'Total HTTP Requests')
 
+FastAPIInstrumentor.instrument_app(app)
+
 @app.get("/health")
 def health():
     REQUESTS.inc()
